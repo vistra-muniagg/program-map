@@ -14,7 +14,7 @@
 
 <script>
 // Initialize map centered on Illinois
-const map = L.map('map').setView([40, -89.4], 7);
+const map = L.map('map').setView([40, -89.4], 6);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 17 }).addTo(map);
 
 // Load optional data file
@@ -65,4 +65,5 @@ fetch("geojson/il.geojson")
 </script>
 </body>
 </html>
+
 
