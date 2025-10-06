@@ -14,7 +14,7 @@
 
 <script>
 // Initialize map centered on Ohio
-const map = L.map('map').setView([40, -82.9], 7);
+const map = L.map('map').setView([40, -82.9], 6);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
 
 // Load optional data file
@@ -67,3 +67,4 @@ fetch("geojson/oh.geojson")
 </script>
 </body>
 </html>
+
