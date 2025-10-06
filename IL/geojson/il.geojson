@@ -1,0 +1,39 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "polygon1",
+        "label": "Test Area 1 (IL)"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-89.6, 40.0],
+          [-89.4, 40.0],
+          [-89.4, 39.8],
+          [-89.6, 39.8],
+          [-89.6, 40.0]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "polygon2",
+        "label": "Test Area 2 (IL)"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-88.9, 39.9],
+          [-88.7, 39.9],
+          [-88.7, 39.7],
+          [-88.9, 39.7],
+          [-88.9, 39.9]
+        ]]
+      }
+    }
+  ]
+}

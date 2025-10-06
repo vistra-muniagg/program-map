@@ -1,0 +1,39 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "polygon1",
+        "label": "Test Region 1 (OH)"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-83.0, 41.0],
+          [-82.8, 41.0],
+          [-82.8, 40.8],
+          [-83.0, 40.8],
+          [-83.0, 41.0]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "polygon2",
+        "label": "Test Region 2 (OH)"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-82.5, 40.5],
+          [-82.3, 40.5],
+          [-82.3, 40.3],
+          [-82.5, 40.3],
+          [-82.5, 40.5]
+        ]]
+      }
+    }
+  ]
+}
