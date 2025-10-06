@@ -1,14 +1,30 @@
-<script>
-const map = L.map('map').setView([40, -82.9], 7);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19}).addTo(map);
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Ohio Polygon Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <style>
+    #map { height: 100vh; margin: 0; }
+  </style>
+</head>
+<body>
+<div id="map"></div>
 
+<script>
+// Initialize map centered on Ohio
+const map = L.map('map').setView([40, -82.9], 7);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+
+// Load optional private/test data
 let privateData = {};
 fetch("../polygon_data.json")
   .then(r => r.json())
   .then(d => d.forEach(x => privateData[x.id] = x))
   .catch(() => console.warn("Private data unavailable"));
 
-// Read polygon ID from query string ?id=polygon1
+// Read polygon ID from query string (?id=polygon1)
 const params = new URLSearchParams(window.location.search);
 const polygonId = params.get("id");
 
@@ -47,3 +63,5 @@ fetch("geojson/oh.geojson")
 
   });
 </script>
+</body>
+</html>
