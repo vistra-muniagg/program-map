@@ -14,34 +14,42 @@
 const map = L.map('map').setView([40, -82.9], 7);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19}).addTo(map);
 
-// optional private data
+// Load private/test data
 let privateData = {};
-fetch("https://company.sharepoint.com/sites/team/secure/polygon_data.json")
+fetch("../polygon_data.json")
   .then(r => r.json())
   .then(d => d.forEach(x => privateData[x.id] = x))
-  .catch(() => console.warn("Private data unavailable or access restricted"));
+  .catch(() => console.warn("Private data unavailable"));
 
-// get polygon ID from URL (e.g. /OH/polygon1)
-const pathParts = window.location.pathname.split("/");
-const polygonId = pathParts[pathParts.length - 1] || null;
+// Read polygon ID from query string ?id=polygon1
+const params = new URLSearchParams(window.location.search);
+const polygonId = params.get("id");
 
-// load GeoJSON for Ohio
 fetch("geojson/oh.geojson")
   .then(r => r.json())
   .then(data => {
-    // show all polygons first
-    const all = L.geoJSON(data, { style: { color: "blue", weight: 1 } }).addTo(map);
+    // Show all polygons
+    const all = L.geoJSON(data, {
+      style: { color: "blue", weight: 1 },
+      onEachFeature: (f, layer) => {
+        const info = privateData[f.properties.id];
+        const html = info
+          ? `<b>${info.name}</b><br>Size: ${info.size}`
+          : `<b>${f.properties.label}</b><br><i>No details.</i>`;
+        layer.bindPopup(html);
+      }
+    }).addTo(map);
 
+    // Highlight single polygon if ?id= is provided
     if (polygonId) {
       const target = data.features.find(f => f.properties.id === polygonId);
       if (target) {
         const single = L.geoJSON(target, { style: { color: "red", weight: 2 } }).addTo(map);
         map.fitBounds(single.getBounds());
-
         const info = privateData[target.properties.id];
         const html = info
           ? `<b>${info.name}</b><br>Size: ${info.size}`
-          : `<b>${target.properties.label}</b><br><i>Details unavailable.</i>`;
+          : `<b>${target.properties.label}</b><br><i>No details.</i>`;
         single.bindPopup(html).openPopup();
       } else {
         alert(`Polygon '${polygonId}' not found.`);
