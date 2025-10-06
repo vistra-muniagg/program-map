@@ -1,20 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8" />
-  <title>Ohio Polygon Map</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <style>#map { height: 100vh; margin: 0; }</style>
-</head>
-<body>
-<div id="map"></div>
-
 <script>
 const map = L.map('map').setView([40, -82.9], 7);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19}).addTo(map);
 
-// Load private/test data
 let privateData = {};
 fetch("../polygon_data.json")
   .then(r => r.json())
@@ -28,20 +15,9 @@ const polygonId = params.get("id");
 fetch("geojson/oh.geojson")
   .then(r => r.json())
   .then(data => {
-    // Show all polygons
-    const all = L.geoJSON(data, {
-      style: { color: "blue", weight: 1 },
-      onEachFeature: (f, layer) => {
-        const info = privateData[f.properties.id];
-        const html = info
-          ? `<b>${info.name}</b><br>Size: ${info.size}`
-          : `<b>${f.properties.label}</b><br><i>No details.</i>`;
-        layer.bindPopup(html);
-      }
-    }).addTo(map);
 
-    // Highlight single polygon if ?id= is provided
     if (polygonId) {
+      // Show only the selected polygon
       const target = data.features.find(f => f.properties.id === polygonId);
       if (target) {
         const single = L.geoJSON(target, { style: { color: "red", weight: 2 } }).addTo(map);
@@ -54,8 +30,20 @@ fetch("geojson/oh.geojson")
       } else {
         alert(`Polygon '${polygonId}' not found.`);
       }
+
+    } else {
+      // Show all polygons in blue
+      L.geoJSON(data, {
+        style: { color: "blue", weight: 1 },
+        onEachFeature: (f, layer) => {
+          const info = privateData[f.properties.id];
+          const html = info
+            ? `<b>${info.name}</b><br>Size: ${info.size}`
+            : `<b>${f.properties.label}</b><br><i>No details.</i>`;
+          layer.bindPopup(html);
+        }
+      }).addTo(map);
     }
+
   });
 </script>
-</body>
-</html>
